@@ -23,12 +23,10 @@ String apiKey = 'your API key';
 CortellisApiService theApi =
     CortellisApiService.getInstance(apiAccountName, apiKey);
 
-CortellisApi.Authv2TokenResponse firstApiRes = theApi.authv2Token();
+CortellisApi.Authv2TokenResponse apiRes = theApi.authorize();
 
-CortellisApi.Authv2TokenResponse secondApiRes = theApi.authv2Token(
-    firstApiRes.realm,
-    firstApiRes.nonce
-);
+System.debug('expires: ' + apiRes.expires);
+System.debug('token: ' + apiRes.token);
 ```
 
 ## Resources

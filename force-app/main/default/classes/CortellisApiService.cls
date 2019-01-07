@@ -24,6 +24,18 @@ public with sharing class CortellisApiService {
         this.baseUrl = DEFAULT_BASE_URL;
     }
 
+    public CortellisApi.Authv2TokenResponse authorize() {
+
+        // Make an empty call to get the realm and nonce
+        CortellisApi.Authv2TokenResponse firstApiRes = this.authv2Token();
+
+        // Return the second call which should have the token
+        return this.authv2Token(
+            firstApiRes.realm,
+            firstApiRes.nonce
+        );
+    }
+
     public CortellisApi.Authv2TokenResponse authv2Token() {
 
         // Construct the HttpRequest
@@ -41,7 +53,6 @@ public with sharing class CortellisApiService {
         CortellisApi.Authv2TokenResponse apiRes =
                 CortellisApi.newAuthv2TokenResponse(res);
         
-        System.debug('apiRes: ' + apiRes);
         return apiRes;
     }
 
@@ -82,7 +93,6 @@ public with sharing class CortellisApiService {
         CortellisApi.Authv2TokenResponse apiRes =
                 CortellisApi.newAuthv2TokenResponse(res);
         
-        System.debug('apiRes: ' + apiRes);
         return apiRes;
     }
 
