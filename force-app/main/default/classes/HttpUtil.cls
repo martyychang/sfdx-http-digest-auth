@@ -1,5 +1,7 @@
 public class HttpUtil {
 
+    public static final String AUTHORIZATION_HEADER = 'Authorization';
+
     public static final String GET_METHOD = 'GET';
 
     public static final String WWW_AUTHENTICATE_HEADER = 'WWW-Authenticate';

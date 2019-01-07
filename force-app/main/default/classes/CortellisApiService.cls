@@ -45,6 +45,47 @@ public with sharing class CortellisApiService {
         return apiRes;
     }
 
+    public CortellisApi.Authv2TokenResponse authv2Token(
+        String realm,
+        String nonce
+    ) {
+
+        // Construct the request
+        HttpRequest req = new HttpRequest();
+        req.setMethod(HttpUtil.GET_METHOD);
+        req.setEndpoint(this.baseUrl + AUTHV2_TOKEN_PATH);
+
+        // Add the authorization header
+        req.setHeader(
+            HttpUtil.AUTHORIZATION_HEADER,
+            HttpDigestUtil.newAuthorizationHeader(
+                HttpDigestUtil.getResponse(
+                    this.apiAccountName,
+                    realm,
+                    this.apiKey,
+                    HttpUtil.GET_METHOD,
+                    AUTHV2_TOKEN_PATH,
+                    nonce
+                ),
+                this.apiAccountName,
+                realm,
+                AUTHV2_TOKEN_PATH,
+                nonce,
+                HttpDigestUtil.MD5_ALGORITHM
+            )
+        );
+
+        // Send the request
+        HttpResponse res = new Http().send(req);
+
+        // Return the API response
+        CortellisApi.Authv2TokenResponse apiRes =
+                CortellisApi.newAuthv2TokenResponse(res);
+        
+        System.debug('apiRes: ' + apiRes);
+        return apiRes;
+    }
+
     public static CortellisApiService getInstance(
         String apiAccountName,
         String apiKey
